@@ -3,31 +3,25 @@
 #include <stdbool.h>
 #include <string.h>
 
-// Функция за намиране на прости числа до x чрез алгоритъма на Ератостен
-bool* eratosthenes(int x) {
-    bool* sieve = (bool*) malloc((x + 1) * sizeof(bool));
-    if (!sieve) {
-        printf("Грешка при заделяне на памет.\n");
-        exit(EXIT_FAILURE);
-    }
 
-    // Инициализиране на всички елементи като "не е маркирано"
-    memset(sieve, false, (x + 1) * sizeof(bool));
-
-    // От 2 до корен квадратен от x
-    for (int i = 2; i * i <= x; i++) {
-        if (!sieve[i]) {
-            // Маркиране на кратните на i
-            for (int j = i * i; j <= x; j += i) {
-                sieve[j] = true;
+bool* eratosten (int x)
+{
+    bool* seive = (bool*) malloc(sizeof(bool) * (x+1));
+    memset (seive, false, sizeof (bool) * (x+1));
+    for (int i = 2; i <= x; i++ )
+    {
+        if (!seive[i])
+        {
+            for (int j = i + i; j <= x; j += i)
+            {
+                seive [j] = true;
             }
         }
     }
+    return seive;
 
-    return sieve;
 }
 
-// Функция за отпечатване на простите числа
 void print_primes(bool* sieve, int x) {
     for (int i = 2; i <= x; i++) {
         if (!sieve[i]) {
@@ -39,13 +33,12 @@ void print_primes(bool* sieve, int x) {
 
 int main() {
     int x;
-    printf("Въведете число: ");
+    printf("Enter number: ");
     scanf("%d", &x);
 
-    bool* sieve = eratosthenes(x);
-    printf("Прости числа до %d:\n", x);
+    bool* sieve = eratosten(x);
     print_primes(sieve, x);
 
-    free(sieve); // Освобождаване на заделената памет
-    return 0;
+    free(sieve); 
+    return EXIT_SUCCESS;
 }
